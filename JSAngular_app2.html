@@ -1,0 +1,271 @@
+<!--Forms-->
+<!DOCTYPE HTML>
+
+<html ng-app="helloWorld" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+    <link   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+
+    <!--CSS-->
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .vertical-align {
+            display: flex;
+            align-items: baseline;
+        }
+
+        .vertical-align .top {
+            align-self: baseline;
+        }
+
+        .vertical-align .center {
+            align-self: center;
+        }
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .discontinued {
+            color: red;
+            font-weight: bold;
+        }
+
+    </style>
+
+    <!--js-->
+    <script>
+        var testData = [
+            {
+                ProductName: "Produto 1",
+                QuantityPerUnit: "100 unidades",
+                UnitPrice: "49.75",
+                UnitsInStock: "12",
+                Discontinued: false
+            },
+            {
+                ProductName: "Produto 2",
+                QuantityPerUnit: "20 por palete",
+                UnitPrice: "168.77",
+                UnitsInStock: "20",
+                Discontinued: false
+            },
+            {
+                ProductName: "Produto 3",
+                QuantityPerUnit: "20 por caixa",
+                UnitPrice: "4953.75",
+                UnitsInStock: "30",
+                Discontinued: false
+            },
+            {
+                ProductName: "Produto 4",
+                QuantityPerUnit: "65 embalagem individual",
+                UnitPrice: "112.50",
+                UnitsInStock: "40",
+                Discontinued: true
+            }
+        ];
+        angular.module("helloWorld",[])
+            .controller('helloController', helloController);
+
+        function helloController($scope) {
+            $scope.productList = testData;
+
+            $scope.orderAmount = "";
+            $scope.orderAlert = "";
+
+            $scope.selectedProduct = {};
+            $scope.selectProduct = function (product) {
+                $scope.selectedProduct = product;
+                $scope.orderAmount = "";
+                $('#product-detail').modal("show");
+            }
+            $scope.orderItem = function() {
+                $scope.orderAlert = $scope.orderAmount + " units of " +
+                    $scope.selectedProduct.ProductName + " have been ordered";
+
+                $('#product-detail').modal("hide");
+                $('#order-alert-box').slideDown("slow");
+
+//                setTimeout(function(){
+  //                  $("#order-alert-box").slideUp("slow");
+   //             },4000);
+                setTimeout(function(){
+                    alert($scope.orderAlert);
+                },4000);
+                //setTimeout(function(){ alert("Hello"); }, 3000);
+
+            }
+
+        }
+    </script>
+
+</head>
+<body ng-controller="helloController">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="navbar-brand">Lista de produtos</div>
+        </div>
+
+        <div class="nav navbar-nav navbar-right">
+            <p class="navbar-text">Items: {{productList.length}}</p>
+        </div>
+
+    </div>
+
+</nav>
+
+<!--<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<p>This is the "first" column.</p>
+			<p>Lore m ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+		<div class="col-sm-6">
+			<p>And this is the "second" column.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+	</div>
+</div>-->
+<div class="list-group">
+    <!--<button type="button" class="list-group-item">-->
+    <button type="button" class="list-group-item" ng-repeat="product in productList"
+            ng-click="selectProduct(product)">
+
+        <!--		<h4>Product A</h4>
+                <p>Description</p>
+                <p>Price in Euros</p>
+                <p>Available?</p> -->
+        <!--		<div class="row">
+                    <div class="col-sm-8">
+                        <h4>Top label</h4>
+                        <p>Description</p>
+                    </div>
+                    <div class="col-sm-3 text-right">
+                        <p>Price in Euros</p>
+                        <p>Available</p>
+                    </div>
+                </div>-->
+
+        <div class="col-sm-8 top">
+            <!--<h4>Top label</h4>-->
+            <!--<h4>{{productList[0].ProductName}}</h4>-->
+            <!--<h4>{{product.ProductName}}</h4>
+            <p>10 boxes at 20 bags</p>
+        </div>
+        <div class="col-sm-3 text-right">
+            <h4>
+                99.99
+                <small class="text-muted">EUR</small>
+            </h4>
+            <p class="available">Available</p>
+        </div>-->
+            <h4>{{product.ProductName}}</h4>
+            <p>{{product.QuantityPerUnit}}</p>
+        </div>
+        <div class="col-sm-3 text-right top">
+            <h4>
+                {{product.UnitPrice}}
+                <small class="text-muted">BRL</small>
+            </h4>
+            <!--<p>{{product.Discontinued}}</p>-->
+            <p>{{product.Discontinued == false ? "Disponivel" : "Não disponivel"}}</p>
+        </div>
+
+        <div class="col-sm-1 center">
+            <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>
+        </div>
+    </button>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="product-detail">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<h4 class="modal-title">Title</h4> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Detalhe do produto - {{selectedProduct.ProductName}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--<p>Modal body</p>-->
+                <!--<p>Nome produto: {{selectedProduct.ProductName}}</p>
+                <p>Preço unitário: {{selectedProduct.UnitPrice}}</p>
+                <p>Status: {{selectedProduct.Discontinued == true ? "Discontinued":"Available" }}</p>-->
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nome do produto</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{selectedProduct.ProductName}}</p>
+                        </div>
+                        <label class="col-sm-3 control-label">Preço unitário</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{selectedProduct.UnitPrice}}</p>
+                        </div>
+                        <label class="col-sm-3 control-label">Status</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                {{selectedProduct.Discontinued == true ? "Não disponivel":"Disponivel" }}
+                            </p>
+                        </div>
+                        <label class="col-sm-3 control-label">Qtde estoque</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{selectedProduct.UnitsInStock}}</p>
+                        </div>
+                        <label class="col-sm-3 control-label">Qtde pedido</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" ng-model="orderAmount" id="orderAmount"
+                                   placeholder="Enter number of units to order"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="orderItem()">Comprar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+            <div class="modal-body">
+                <div class="row">
+                    <p>
+                        <span class="col-sm-3">Product Name</span>
+                        <span class="col-sm-9">{{selectedProduct.ProductName}}</span>
+                    </p>
+                    <p>
+                        <span class="col-sm-3">Unit Price</span>
+                        <span class="col-sm-9">{{selectedProduct.UnitPrice}}</span>
+                    </p>
+                    <p>
+                        <span class="col-sm-3">Status</span>
+                        <span class="col-sm-9">
+			                {{selectedProduct.Discontinued == true ? "Discontinued":"Available" }}
+		                </span>
+                    </p>
+                </div>
+            </div>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+</body>
+
+</html>
